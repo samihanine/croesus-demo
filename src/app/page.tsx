@@ -6,7 +6,11 @@ import { Input, Card, Titre, Paragraph, Button } from "../components";
 export default function Home() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<{
+    sentiment: string;
+    score: number;
+    organizations: string[];
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const exemples = [
@@ -44,7 +48,8 @@ export default function Home() {
       let data;
       try {
         data = await response.json();
-      } catch (jsonError) {
+      } catch (error) {
+        console.error(error);
         throw new Error("Invalid server response (JSON format expected)");
       }
 

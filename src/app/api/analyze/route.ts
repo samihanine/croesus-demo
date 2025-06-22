@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
       docScore > 0.1 ? "positive" : docScore < -0.1 ? "negative" : "neutral";
 
     /* 3. Organizations */
-    let organisations: string[] =
+    const organisations: string[] =
       ents.entities
         ?.filter((entity) => entity.salience && entity.salience > 0.005)
         .filter(
@@ -79,14 +79,18 @@ export async function GET(req: NextRequest) {
         .sort((a, b) => (b.salience || 0) - (a.salience || 0))
         .map((entity) => entity.name || "") || [];
 
-    let results: string[] = [];
+    const results: string[] = [];
     for (const organisation of organisations) {
       try {
         const kgUrl = `${KG_BASE}?query=${encodeURIComponent(
           organisation
         )}&key=${KG_KEY}&types=Organization&limit=3`;
         const kgResponse = await fetch(kgUrl);
-        const kgData = (await kgResponse.json()) as any;
+        const kgData = (await kgResponse.json()) as {
+          itemListElement: {
+            result: { name: string };
+          }[];
+        };
 
         if (kgData.itemListElement && kgData.itemListElement.length > 0) {
           const kgResult = kgData.itemListElement[0].result.name;
