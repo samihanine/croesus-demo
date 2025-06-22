@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Croesus - AI-Powered Article Analysis API
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+This project was developed by **Sami Hanine** for **Croesus**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The application is a Next.js-based API that leverages Google Cloud's Natural Language Processing services to analyze news articles and extract meaningful insights about organizations and sentiment analysis.
+
+## Configuration
+
+### Prerequisites
+
+- Node.js
+- pnpm package manager
+- Google Cloud Platform account with the following APIs enabled:
+  - Google Cloud Natural Language API
+  - Google Knowledge Graph Search API
+
+### Environment Variables
+
+Create a `.env` file in the root directory with the following Google Cloud credentials:
+
+```env
+# Google Cloud Natural Language API Credentials
+GOOGLE_TYPE=service_account
+GOOGLE_PROJECT_ID=your-project-id
+GOOGLE_PRIVATE_KEY_ID=your-private-key-id
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour-Private-Key-Here\n-----END PRIVATE KEY-----\n"
+GOOGLE_CLIENT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
+GOOGLE_CLIENT_ID=your-client-id
+GOOGLE_AUTH_URI=https://accounts.google.com/o/oauth2/auth
+GOOGLE_TOKEN_URI=https://oauth2.googleapis.com/token
+GOOGLE_AUTH_PROVIDER_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
+GOOGLE_CLIENT_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/your-service-account%40your-project.iam.gserviceaccount.com
+GOOGLE_UNIVERSE_DOMAIN=googleapis.com
+
+# Google Knowledge Graph API Key
+GOOGLE_KG_API_KEY=your-knowledge-graph-api-key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation & Launch
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Install dependencies:**
+   ```bash
+   pnpm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Run the development server:**
+   ```bash
+   pnpm dev
+   ```
 
-## Learn More
+3. **Build for production:**
+   ```bash
+   pnpm build
+   pnpm start
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+The API will be available at `http://localhost:3000/api/analyze`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Send a GET request to the API endpoint with a `url` parameter:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+GET /api/analyze?url=https://example.com/article
+```
